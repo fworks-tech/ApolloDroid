@@ -1,0 +1,47 @@
+# requirements.txt
+# ============================================================
+# Production dependencies for ApolloDroid.
+# Install with: pip install -r requirements.txt
+#
+# Keep this in sync with the `requires` list in pyproject.toml
+# (pyproject.toml embeds these into the Android APK).
+# ============================================================
+
+# ---- UI Framework ----
+# Kivy runs natively on Android and handles all touch/display
+kivy==2.3.0
+
+# ---- Wake Word Detection ----
+# Porcupine by Picovoice — offline "Hey Apollo" detection.
+# Requires a free API key from https://console.picovoice.ai/
+# and a trained .ppn model file placed in apollo/core/wakeword/models/
+pvporcupine==3.0.1
+
+# ---- Speech-to-Text ----
+# SpeechRecognition wraps Google's STT API (free, no key needed for basic use).
+# Requires internet connection. For fully offline STT, swap with openai-whisper.
+SpeechRecognition==3.10.4
+
+# PyAudio: provides the microphone audio stream that SpeechRecognition reads.
+# On Linux: sudo apt install portaudio19-dev before pip install
+# On Mac:   brew install portaudio before pip install
+# On Android: Briefcase handles this via its audio backend
+PyAudio==0.2.14
+
+# ---- NLP / Brain ----
+# Official Anthropic Python SDK — used to call the Claude API
+anthropic==0.28.0
+
+# ---- Text-to-Speech ----
+# pyttsx3: offline TTS engine that uses the OS's built-in voice synthesizer.
+# Works on Windows (SAPI5), Mac (NSSpeechSynthesizer), and Linux (espeak).
+pyttsx3==2.90
+
+# ---- Config & Environment ----
+# Loads API keys from the .env file into environment variables.
+# Never hardcode keys — always use .env (which is git-ignored).
+python-dotenv==1.0.1
+
+# ---- Networking ----
+# Used by the weather and search features for HTTP calls
+requests==2.32.3
