@@ -1,0 +1,86 @@
+# pyproject.toml
+# ============================================================
+# Briefcase project configuration.
+# This file tells Briefcase everything it needs to package
+# your Python app as a real Android APK (and desktop builds
+# for testing on Windows/Mac/Linux).
+#
+# Docs: https://briefcase.readthedocs.io/en/stable/reference/configuration.html
+# ============================================================
+
+[tool.briefcase]
+project_name = "ApolloDroid"
+bundle = "tech.fworks"             # Reverse-domain bundle ID — must be unique on Play Store
+version = "0.1.0"
+url = "https://github.com/fworks-tech/ApolloDroid"
+license = "Proprietary"
+author = "fworks-tech"
+author_email = "hello@fworks.tech"
+
+# ============================================================
+# APP DEFINITION
+# The entry point Briefcase launches when the APK starts.
+# ============================================================
+[tool.briefcase.app.apollo]
+formal_name = "Apollo"
+description = "Your personal voice assistant"
+long_description = """
+Apollo is a Python-powered voice assistant for Android.
+Say 'Hey Apollo' to activate it, then speak your command.
+"""
+icon = "ui/assets/apollo_icon"     # Briefcase looks for apollo_icon.png at multiple resolutions
+sources = [
+    "apollo",                      # The main app package
+    "ui",                          # Kivy UI layer
+]
+requires = [
+    # These are installed INTO the APK's Python environment.
+    # Keep this in sync with requirements.txt.
+    "kivy==2.3.0",
+    "pvporcupine==3.0.1",
+    "SpeechRecognition==3.10.4",
+    "anthropic==0.28.0",
+    "pyttsx3==2.90",
+    "python-dotenv==1.0.1",
+    "requests==2.32.3",
+]
+
+# ============================================================
+# ANDROID-SPECIFIC SETTINGS
+# ============================================================
+[tool.briefcase.app.apollo.android]
+# Minimum Android version: 8.0 Oreo (API 26)
+# Required for ForegroundService with microphone access.
+min_sdk_version = 26
+
+# Android permissions — these appear in the APK manifest.
+# Users are prompted to grant these at runtime on Android 6+.
+permissions = [
+    "android.permission.RECORD_AUDIO",           # Microphone for wake word + STT
+    "android.permission.INTERNET",               # Claude API + weather + search
+    "android.permission.FOREGROUND_SERVICE",     # Keep Apollo alive in background
+    "android.permission.FOREGROUND_SERVICE_MICROPHONE",  # Mic access from background (Android 14+)
+    "android.permission.RECEIVE_BOOT_COMPLETED", # Auto-start after reboot
+    "android.permission.WAKE_LOCK",              # Prevent CPU sleep during audio processing
+    "android.permission.POST_NOTIFICATIONS",     # Show persistent "Apollo is listening" notification
+    "android.permission.VIBRATE",               # Haptic feedback
+]
+
+# Gradle dependencies for Android-native features Kivy can't provide directly.
+# These are Java/Android libraries that Python can call via Pyjnius.
+gradle_dependencies = [
+    # (Add Android-specific Java dependencies here if needed in future)
+]
+
+# ============================================================
+# DESKTOP BUILD (for rapid testing without a phone)
+# Run `briefcase dev` or `briefcase run` to test on your PC.
+# ============================================================
+[tool.briefcase.app.apollo.macOS]
+requires = []   # macOS-specific overrides if needed
+
+[tool.briefcase.app.apollo.windows]
+requires = []
+
+[tool.briefcase.app.apollo.linux]
+requires = []
