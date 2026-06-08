@@ -14,10 +14,12 @@ Handles **Text-to-Speech** — Apollo's voice. Converts Claude's text reply into
 
 | Platform | TTS Engine Used |
 |----------|----------------|
-| Android (device) | Android system TTS (via `plyer`) |
+| Windows (dev + v0.2.0 target) | SAPI5 via `pyttsx3` — works out of the box |
+| Android (device) | Android system TTS via `plyer` — **pyttsx3 is not used on Android** |
 | macOS (dev) | `say` command via `pyttsx3` |
 | Linux (dev) | `espeak` via `pyttsx3` — install: `sudo apt install espeak` |
-| Windows (dev) | SAPI5 via `pyttsx3` |
+
+> **Android note:** `pyttsx3` cannot drive Android's audio stack. On Android, `Speaker` uses `plyer.tts` instead. This swap is handled by the platform detection in `speaker.py`.
 
 ---
 
