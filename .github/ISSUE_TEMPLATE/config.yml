@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: ApolloDroid documentation
+    url: https://github.com/fworks-tech/ApolloDroid/tree/main/docs
+    about: Review the project docs before opening a new issue.
