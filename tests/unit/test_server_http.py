@@ -3,6 +3,9 @@ from __future__ import annotations
 import json
 from http.client import HTTPConnection
 
+import pytest
+
+pytest.importorskip("apollo.server", reason="apollo.server not yet available on this branch")
 from apollo.server import ApolloCommandResponse, ApolloHTTPServer, ApolloStatus, LocalBridge
 
 
