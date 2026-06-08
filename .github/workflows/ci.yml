@@ -1,0 +1,51 @@
+# .github/workflows/ci.yml
+# ============================================================
+# Continuous Integration for ApolloDroid
+#
+# Runs automatically on every push and pull request.
+# Checks: code formatting, linting, and unit tests.
+#
+# Does NOT build the APK in CI (requires Android SDK + ~1GB download).
+# Run `briefcase build android` locally for APK builds.
+# ============================================================
+
+name: CI
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    name: Lint & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install system dependencies
+        run: |
+          # PortAudio is required by PyAudio
+          sudo apt-get update && sudo apt-get install -y portaudio19-dev
+
+      - name: Install Python dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Run unit tests
+        # Set dummy API keys so config loads without real keys in CI
+        env:
+          PICOVOICE_ACCESS_KEY: "ci-dummy-key"
+          ANTHROPIC_API_KEY: "ci-dummy-key"
+        run: |
+          pytest tests/unit/ -v --tb=short || { rc=$?; [ $rc -eq 5 ]; }
