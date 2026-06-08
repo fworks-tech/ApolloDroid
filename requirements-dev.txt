@@ -1,0 +1,22 @@
+# requirements-dev.txt
+# ============================================================
+# Development-only dependencies.
+# These are NOT included in the Android APK — only used on
+# your development machine for testing, linting, and formatting.
+# Install with: pip install -r requirements-dev.txt
+# ============================================================
+
+# Include production deps too
+-r requirements.txt
+
+# ---- Testing ----
+pytest==8.2.2               # Test runner
+pytest-asyncio==0.23.7      # Async test support (for coroutine-based tests)
+pytest-cov==5.0.0           # Code coverage reports
+
+# ---- Linting & Formatting ----
+ruff==0.4.9                 # Fast Python linter + formatter (replaces flake8 + black)
+mypy==1.10.1                # Static type checking
+
+# ---- Briefcase (build tool) ----
+briefcase==0.3.19           # BeeWare packaging tool — builds the Android APK
